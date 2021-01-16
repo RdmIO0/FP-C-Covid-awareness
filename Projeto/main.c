@@ -322,20 +322,20 @@ int menu_tipo(void) {
 
 void selecionar_tipo(QUESTIONARIO_T *questionario){
 
-char op_tipo1;
+int op_tipo1;
     
         op_tipo1=menu_tipo();
         switch (op_tipo1) {
-            case '1':
+            case 1:
                 strcpy(questionario->participante,"Docente");
                 break;
-            case '2':
+            case 2:
                 strcpy(questionario->participante, "Estudante");
                 break;
-            case '3':
+            case 3:
                 strcpy(questionario->participante, "Funcionario");
                 break;
-            case '4':
+            case 4:
                 strcpy(questionario->participante, "Investigador");
                 break;
             default:
