@@ -69,6 +69,8 @@ void mostrar_questionario(QUESTIONARIO_T questionario);
 void mostrar_questionarios(QUESTIONARIO_T questionario[],int num_questionarios);
 int ler_idade(char texto[]);
 void selecionar_genero(QUESTIONARIO_T *questionario);
+void covid_contacto(QUESTIONARIO_T *questionario);
+int conta_questionarios(int questionarios[]);
 
 void selecionar_tipo(QUESTIONARIO_T *questionario);
 //RAFAEL TENTIVA DE FICHEIRO
@@ -167,10 +169,12 @@ int menu_opcoesprincipal(void) {
     printf("3 - Registar um novo questionario\n");
     printf("4 - Consultar questionarios\n");
     printf("5 - Estatisticas\n");
-    printf("6 - Guardar ficheiro\n");
-    printf("7 - Ler ficheiros guardados\n");
+    printf("6 - Guardar ficheiro Escola\n");
+    printf("7 - Guardar ficheiro Questionarios\n");
+    printf("8 - Ler ficheiros guardados Escolas\n");
+    printf("9 - Ler ficheiros guardados Questionarios\n");
     printf("0 - Sair\n");
-    op = ler_inteiro("Opcao: ", 0, 7);
+    op = ler_inteiro("Opcao: ", 0, 9);
     return op;
 }
 
@@ -252,10 +256,10 @@ QUESTIONARIO_T ler_questionario(void) {
     
     QUESTIONARIO_T questionario;
     questionario.data=ler_data();
-    questionario.identificador_q= ler_inteiro("Identificador do Questionario: ", 1, 250);
     questionario.idade=ler_idade("Idade:");
     selecionar_genero(&questionario);
     selecionar_tipo(&questionario);
+    covid_contacto(&questionario);
 
     return questionario;
 }
@@ -267,6 +271,7 @@ void mostrar_questionario(QUESTIONARIO_T questionario) {
     printf("Idade: %d\n",questionario.idade);
     printf("Genero: %s\n",questionario.genero);
     printf("Tipo de Participante: %s\n",questionario.participante);
+    printf("Esteve em contacto com uma pessoa com covid?: %s\n",questionario.contacto_covid);
     
     
     
@@ -347,6 +352,7 @@ int op_tipo1;
 char menu_covid(void){
     char op_contacto_covid;
     
+    printf("Esteve em contacto com uma pessoa com covid? \n");
     printf("(S)im \n");
     printf("(N)ao\n");
     printf("(D)esconhecido\n");
@@ -355,6 +361,32 @@ char menu_covid(void){
     fflush(stdin);
     scanf("%c",&op_contacto_covid);
     return toupper(op_contacto_covid);
+}
+
+// Funcao Case - Esteve em contacto com uma pessoa que tem covid
+void covid_contacto(QUESTIONARIO_T *questionario){
+
+char op_contacto_covid;
+    
+        op_contacto_covid=menu_covid();
+        switch (op_contacto_covid) {
+            case 'S':
+            case 's':
+                strcpy(questionario->contacto_covid,"Sim");
+                
+                break;
+            case 'N':
+            case 'n':
+                strcpy(questionario->contacto_covid,"Nao");
+                break;
+            case 'D':
+            case 'd':
+                strcpy(questionario->contacto_covid,"Desconhecido");
+                break;
+            default:
+                printf("Indique se esteve em contacto com uma pessoa com covid!!\n");
+                break;
+        }
 }
 
 
@@ -375,6 +407,26 @@ int menu_opcoes(void) {
     op_doencas = ler_inteiro("Opcao: ", 0, 8);
     return op_doencas;
 }
+
+void doencas(QUESTIONARIO_T *questionario){
+
+char op_doencas;
+    
+        op_doencas=menu_opcoes();
+        switch (op_doencas) {
+            case '1':
+                strcpy(questionario->doencas,"Autoimune");
+                break;
+            case '2':
+                strcpy(questionario->doencas,"Nao");
+                break;
+            default:
+                printf("Indique uma doenca válida!!\n");
+                break;
+        }
+}
+
+
 // Menu sintomas
 int menu_sintomas(void) {
     int op_sintomas;
@@ -412,6 +464,7 @@ void selecionar_genero(QUESTIONARIO_T *questionario){
 
 char op_genero1;
     
+    do{
         op_genero1=menu_genero();
         switch (op_genero1) {
             case 'F':
@@ -423,10 +476,10 @@ char op_genero1;
             case 'M':
                 strcpy(questionario->genero,"Masculino");
                 break;
-            default:
-                printf("Indique um genero válido!!\n");
-                break;
+        
         }
+    }while(op_genero1 == 'F' || op_genero1=='f' || op_genero1=='m' || op_genero1=='M');
+               
 }
 
 
@@ -473,7 +526,7 @@ void gravar_schools(ESCOLA_T  escolas[], int num_escolas){
     fclose(fich);
 }
 
-//LE ESCOLAS DO FICHEIRO
+//LER ESCOLAS DO FICHEIRO
 int ler_schools(ESCOLA_T escolas[]) {
     int num=0;
     FILE *fich = fopen(FILE_FORM,"rb");
@@ -487,7 +540,7 @@ int ler_schools(ESCOLA_T escolas[]) {
     return num;
     
 }
-//LE FORMULARIOS DO FICHEIRO
+//LER FORMULARIOS DO FICHEIRO
 int ler_forms( QUESTIONARIO_T questionario[]) {
     int num=0;
     
@@ -502,7 +555,6 @@ int ler_forms( QUESTIONARIO_T questionario[]) {
     return num;
     
 }
-
 
 
 
