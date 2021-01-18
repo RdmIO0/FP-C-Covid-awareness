@@ -358,7 +358,7 @@ char menu_covid(void){
     printf("(S)im \n");
     printf("(N)ao\n");
     printf("(D)esconhecido\n");
-    printf("(S)air\n");
+    printf("(C)oncluir\n");
     printf("OPCAO -->\n");
     fflush(stdin);
     scanf("%c",&op_contacto_covid);
@@ -370,25 +370,26 @@ void covid_contacto(QUESTIONARIO_T *questionario){
 
 char op_contacto_covid;
     
+    do{
         op_contacto_covid=menu_covid();
         switch (op_contacto_covid) {
             case 'S':
-            case 's':
                 strcpy(questionario->contacto_covid,"Sim");
                 
                 break;
             case 'N':
-            case 'n':
                 strcpy(questionario->contacto_covid,"Nao");
                 break;
             case 'D':
-            case 'd':
                 strcpy(questionario->contacto_covid,"Desconhecido");
                 break;
+            case 'C':
+               
             default:
                 printf("Indique se esteve em contacto com uma pessoa com covid!!\n");
                 break;
         }
+    }while(op_contacto_covid != 'C');
 }
 
 
