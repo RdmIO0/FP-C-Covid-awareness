@@ -9,6 +9,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <time.h>
+#include <stdlib.h>
 
 #define MAX_NOME 50
 #define MAX_ESCOLAS 5
@@ -127,6 +128,7 @@ int main() {
                         break;
 
                     case 4:
+
                             
                         break;
                     }
@@ -465,20 +467,23 @@ void selecionar_genero(QUESTIONARIO_T *questionario){
 char op_genero1;
     
     do{
+        
         op_genero1=menu_genero();
         switch (op_genero1) {
             case 'F':
-            case 'f':
                 strcpy(questionario->genero,"Feminino");
-                
                 break;
-            case 'm':
             case 'M':
                 strcpy(questionario->genero,"Masculino");
                 break;
+            case 'S':
+                
+            default:
+                printf("Por favor selecione um genero valido\n");
+                break;
         
         }
-    }while(op_genero1 == 'F' || op_genero1=='f' || op_genero1=='m' || op_genero1=='M');
+    }while(op_genero1 !='S');
                
 }
 
