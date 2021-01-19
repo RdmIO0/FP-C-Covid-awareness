@@ -43,12 +43,12 @@ typedef struct questionario {
     DATA_T data;
     char risco_c [20];
     int idade;
-    char genero [50];
+    char genero [15];
     char localidade[50];
     char participante [30];
-    char contacto_covid [10];
-    char sintomas [100];
-    char doencas [100];
+    char contacto_covid [15];
+    char *sintomas [6];
+    char *doencas [7];
     int temperatura;
     
 } QUESTIONARIO_T;
@@ -71,7 +71,7 @@ void mostrar_questionarios(QUESTIONARIO_T questionario[],int num_questionarios);
 int ler_idade(char texto[]);
 void selecionar_genero(QUESTIONARIO_T *questionario);
 void covid_contacto(QUESTIONARIO_T *questionario);
-int conta_questionarios(int questionarios[]);
+void doencas(QUESTIONARIO_T *questionario);
 
 void selecionar_tipo(QUESTIONARIO_T *questionario);
 //RAFAEL TENTIVA DE FICHEIRO
@@ -262,6 +262,7 @@ QUESTIONARIO_T ler_questionario(void) {
     selecionar_genero(&questionario);
     selecionar_tipo(&questionario);
     covid_contacto(&questionario);
+    doencas(&questionario);
 
     return questionario;
 }
@@ -274,6 +275,7 @@ void mostrar_questionario(QUESTIONARIO_T questionario) {
     printf("Genero: %s\n",questionario.genero);
     printf("Tipo de Participante: %s\n",questionario.participante);
     printf("Esteve em contacto com uma pessoa com covid?: %s\n",questionario.contacto_covid);
+    printf("Doencas: %s\n",questionario.doencas[0]);
     
     
     
@@ -404,8 +406,8 @@ int menu_opcoes(void) {
     printf("4 - Diabetes\n");
     printf("5 - Hipertensao\n");
     printf("6 - Obesidade\n");
-    printf("6 - Renal\n");
-    printf("6 - Respiratoria\n");
+    printf("7 - Renal\n");
+    printf("8 - Respiratoria\n");
     printf("0 - Sair\n");
     op_doencas = ler_inteiro("Opcao: ", 0, 8);
     return op_doencas;
@@ -415,18 +417,38 @@ void doencas(QUESTIONARIO_T *questionario){
 
 char op_doencas;
     
+    do{
         op_doencas=menu_opcoes();
         switch (op_doencas) {
             case '1':
-                strcpy(questionario->doencas,"Autoimune");
+                strcpy(questionario->doencas[0],"Autoimune");
                 break;
             case '2':
-                strcpy(questionario->doencas,"Nao");
+                strcpy(questionario->doencas[1],"Cancro");
+                break;
+            case '3':
+                strcpy(questionario->doencas[2],"Cardiovascular");
+                break;
+            case '4':
+                strcpy(questionario->doencas[3],"Diabetes");
+                break;
+            case '5':
+                strcpy(questionario->doencas[4],"Hipertensao");
+                break;
+            case '6':
+                strcpy(questionario->doencas[5],"Obesidade");
+                break;
+            case '7':
+                strcpy(questionario->doencas[6],"Renal");
+                break;
+            case '8':
+                strcpy(questionario->doencas[7],"Respiratoria");
                 break;
             default:
                 printf("Indique uma doenca válida!!\n");
                 break;
         }
+    }while(op_doencas !=0);
 }
 
 
@@ -478,6 +500,7 @@ char op_genero1;
                 strcpy(questionario->genero,"Masculino");
                 break;
             case 'S':
+                
                 
             default:
                 printf("Por favor selecione um genero valido\n");
