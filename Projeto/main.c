@@ -283,7 +283,6 @@ QUESTIONARIO_T ler_questionario(void) {
     selecionar_tipo(&questionario);
     covid_contacto(&questionario);
     doencas(&questionario);
-    questionario.temperatura = ler_temperatura();
     
 
     return questionario;
@@ -416,11 +415,7 @@ char op_contacto_covid;
     }while(op_contacto_covid != 'C');
 }
 
-QUESTIONARIO_T ler_temperatura(void) {
-    questionario temperatura;
-    questionario = ler_float("Temperatura:\n",35.0, 42.0);
-    return temperatura;
-}
+
 
 // Menu doencas
 int menu_opcoes(void) {
