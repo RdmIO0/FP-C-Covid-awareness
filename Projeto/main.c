@@ -56,7 +56,6 @@ typedef struct questionario {
 
 
 int ler_inteiro(char texto[], int min, int max);
-float ler_float(float min, float max);
 int menu_opcoesprincipal(void);
 int menu_opcoesestatisticas(void);
 ESCOLA_T ler_escola(void);
@@ -73,7 +72,7 @@ int ler_idade(char texto[]);
 void selecionar_genero(QUESTIONARIO_T *questionario);
 void covid_contacto(QUESTIONARIO_T *questionario);
 void doencas(QUESTIONARIO_T *questionario);
-QUESTIONARIO_T ler_temperatura(void);
+float ler_temperatura(char texto[]);
 
 //teste
 //estatistica_contagio(QUESTIONARIO_T questionario);
@@ -210,6 +209,19 @@ int ler_inteiro(char texto[], int min, int max) {
     } while (num < min || num > max);
     return num;
 }
+float ler_temperatura(char texto[]) {
+    float num;
+    do {
+        printf("%s", texto);
+        fflush(stdin);
+        scanf("%f", &num);
+        if (num < 35 || num >42 ) {
+            printf("Insira uma temperatura entre 35º e 42º.\n");
+        }
+    } while (num < 35 || num >42);
+    return num;
+}
+
 int registar_escolas(ESCOLA_T escolas[], int num_escolas) {
     ESCOLA_T escola;
     if (num_escolas >= MAX_ESCOLAS) {
@@ -237,19 +249,7 @@ void ler_string(char texto[], char str[], int max) {
     }
 }
 
-float ler_float(float min, float max){
-    float num;
 
-    do {
-        printf("Insira um numero entre %.2f e %.2f: ",min,max);
-        fflush(stdin);
-        scanf("%f", &num);
-            if (num < min || num > max){
-                printf("Numero Invalido \n");
-            }
-    } while (num < min || num > max);
-    return num;
-}
 
 void mostrar_escola(ESCOLA_T escola) {
     printf("Numero do identificador da escola: %d\n", escola.identificador);
@@ -283,6 +283,13 @@ QUESTIONARIO_T ler_questionario(void) {
     selecionar_tipo(&questionario);
     covid_contacto(&questionario);
     doencas(&questionario);
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+    questionario.temperatura=ler_temperatura("Temperatura:");
+=======
+>>>>>>> bddfaf86ec27456faf060ee8b8668a68efc6794b
+>>>>>>> Stashed changes
     
 
     return questionario;
@@ -296,7 +303,8 @@ void mostrar_questionario(QUESTIONARIO_T questionario) {
     printf("Genero: %s\n",questionario.genero);
     printf("Tipo de Participante: %s\n",questionario.participante);
     printf("Esteve em contacto com uma pessoa com covid?: %s\n",questionario.contacto_covid);
-    printf("Doencas: %s\n",questionario.doencas[0]);
+    printf("Doencas: %s\n",questionario.doencas[7]);
+    printf("Temperatura: %.2f\n",questionario.temperatura);
     
     
     
@@ -415,8 +423,14 @@ char op_contacto_covid;
     }while(op_contacto_covid != 'C');
 }
 
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
 
 
+>>>>>>> bddfaf86ec27456faf060ee8b8668a68efc6794b
 // Menu doencas
 int menu_opcoes(void) {
     int op_doencas;
