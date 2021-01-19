@@ -73,6 +73,9 @@ void selecionar_genero(QUESTIONARIO_T *questionario);
 void covid_contacto(QUESTIONARIO_T *questionario);
 void doencas(QUESTIONARIO_T *questionario);
 
+//teste
+valida_contagio(QUESTIONARIO_T questionario);
+
 void selecionar_tipo(QUESTIONARIO_T *questionario);
 //RAFAEL TENTIVA DE FICHEIRO
 
@@ -468,6 +471,27 @@ int menu_sintomas(void) {
     op_sintomas = ler_inteiro("Opcao: ", 0, 7);
     return op_sintomas;
 }
+
+//validar contagio
+valida_contagio(QUESTIONARIO_T questionario){
+    char *contagio[6];
+    if (questionario.temperatura >=38.0 && strcmp("sim", questionario.contacto_covid)){
+        *contagio = "alto";
+        strcpy(questionario.contacto_covid, *contagio);
+        printf("\n %s", questionario.contacto_covid);
+        }
+    else if (questionario.temperatura >=36.5 && strcmp("nao", questionario.contacto_covid) || strcmp("desconhecido", questionario.contacto_covid)){
+        *contagio = "medio";
+        strcpy(questionario.contacto_covid, *contagio);
+        printf("\n %s", questionario.contacto_covid);
+        }
+    } else if (questionario.temperatura < 36.5 && strcmp("nao", questionario.contacto_covid) || strcmp("desconhecido", questionario.contacto_covid)){
+        *contagio = "baixo";
+        strcpy(questionario.contacto_covid, *contagio);
+        printf("\n %s", questionario.contacto_covid);
+        }
+    }
+return *questionario.contact_covid;
 
 //Validadar idade
 
