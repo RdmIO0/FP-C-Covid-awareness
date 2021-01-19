@@ -283,13 +283,8 @@ QUESTIONARIO_T ler_questionario(void) {
     selecionar_tipo(&questionario);
     covid_contacto(&questionario);
     doencas(&questionario);
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
     questionario.temperatura=ler_temperatura("Temperatura:");
-=======
->>>>>>> bddfaf86ec27456faf060ee8b8668a68efc6794b
->>>>>>> Stashed changes
+
     
 
     return questionario;
@@ -423,14 +418,7 @@ char op_contacto_covid;
     }while(op_contacto_covid != 'C');
 }
 
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-=======
->>>>>>> Stashed changes
 
-
->>>>>>> bddfaf86ec27456faf060ee8b8668a68efc6794b
 // Menu doencas
 int menu_opcoes(void) {
     int op_doencas;
