@@ -48,14 +48,15 @@ typedef struct questionario {
     char participante [30];
     char contacto_covid [15];
     char *sintomas [6];
-    char *doencas [7];
-    int temperatura;
+    char *doencas [8];
+    float temperatura;
     
 } QUESTIONARIO_T;
 
 
 
 int ler_inteiro(char texto[], int min, int max);
+float ler_float(float min, float max);
 int menu_opcoesprincipal(void);
 int menu_opcoesestatisticas(void);
 ESCOLA_T ler_escola(void);
@@ -72,9 +73,10 @@ int ler_idade(char texto[]);
 void selecionar_genero(QUESTIONARIO_T *questionario);
 void covid_contacto(QUESTIONARIO_T *questionario);
 void doencas(QUESTIONARIO_T *questionario);
+QUESTIONARIO_T ler_temperatura(void);
 
 //teste
-valida_contagio(QUESTIONARIO_T questionario);
+//estatistica_contagio(QUESTIONARIO_T questionario);
 
 void selecionar_tipo(QUESTIONARIO_T *questionario);
 //RAFAEL TENTIVA DE FICHEIRO
@@ -234,6 +236,21 @@ void ler_string(char texto[], char str[], int max) {
         str[len - 1] = '\0';
     }
 }
+
+float ler_float(float min, float max){
+    float num;
+
+    do {
+        printf("Insira um numero entre %.2f e %.2f: ",min,max);
+        fflush(stdin);
+        scanf("%f", &num);
+            if (num < min || num > max){
+                printf("Numero Invalido \n");
+            }
+    } while (num < min || num > max);
+    return num;
+}
+
 void mostrar_escola(ESCOLA_T escola) {
     printf("Numero do identificador da escola: %d\n", escola.identificador);
     printf("Nome da Escola: %s\n", escola.nome);
@@ -266,6 +283,8 @@ QUESTIONARIO_T ler_questionario(void) {
     selecionar_tipo(&questionario);
     covid_contacto(&questionario);
     doencas(&questionario);
+    questionario.temperatura = ler_temperatura();
+    
 
     return questionario;
 }
@@ -397,6 +416,11 @@ char op_contacto_covid;
     }while(op_contacto_covid != 'C');
 }
 
+QUESTIONARIO_T ler_temperatura(void) {
+    questionario temperatura;
+    questionario = ler_float("Temperatura:\n",35.0, 42.0);
+    return temperatura;
+}
 
 // Menu doencas
 int menu_opcoes(void) {
@@ -473,25 +497,27 @@ int menu_sintomas(void) {
 }
 
 //validar contagio
-valida_contagio(QUESTIONARIO_T questionario){
-    char *contagio[6];
-    if (questionario.temperatura >=38.0 && strcmp("sim", questionario.contacto_covid)){
-        *contagio = "alto";
-        strcpy(questionario.contacto_covid, *contagio);
-        printf("\n %s", questionario.contacto_covid);
-        }
-    else if (questionario.temperatura >=36.5 && strcmp("nao", questionario.contacto_covid) || strcmp("desconhecido", questionario.contacto_covid)){
-        *contagio = "medio";
-        strcpy(questionario.contacto_covid, *contagio);
-        printf("\n %s", questionario.contacto_covid);
-        }
-    } else if (questionario.temperatura < 36.5 && strcmp("nao", questionario.contacto_covid) || strcmp("desconhecido", questionario.contacto_covid)){
-        *contagio = "baixo";
-        strcpy(questionario.contacto_covid, *contagio);
-        printf("\n %s", questionario.contacto_covid);
-        }
-    }
-return *questionario.contact_covid;
+//estatistica_contagio(QUESTIONARIO_T questionario){
+// char *contagio[6];
+// if (questionario.temperatura >=38.0 && strcmp("sim", questionario.contacto_covid)){
+//     *contagio = "alto";
+//     strcpy(questionario.contacto_covid, *contagio);
+//     printf("\n %s", questionario.contacto_covid);
+//      }
+//   else if (questionario.temperatura >=36.5 "&&" strcmp("nao", questionario.contacto_covid) || strcmp("desconhecido", //questionario.contacto_covid)){
+//     *contagio = "medio";
+//     strcpy(questionario.contacto_covid, *contagio);
+//     printf("\n %s", questionario.contacto_covid);
+//}
+//  } else if (questionario.temperatura < 36.5 && strcmp("nao", questionario.contacto_covid) || strcmp("desconhecido", questionario.contacto_covid)){
+///     *contagio = "baixo";
+     //   strcpy(questionario.contacto_covid, *contagio);
+       // printf("\n %s", questionario.contacto_covid);
+       // }
+    //}
+//return *questionario.contact_covid;
+        
+
 
 //Validadar idade
 
@@ -540,7 +566,7 @@ char op_genero1;
 void gravar_forms(QUESTIONARIO_T questionario[], int num_questionario){
     ssize_t dataquestionario;
     //1. Abrir ficheiro
-    FILE *fich = fopen(FILE_FORM, "w1b");
+    FILE *fich = fopen(FILE_FORM, "wb");
     if (fich == NULL){
         printf("Erro ao abrir o ficheiro para escrita. \n");
     } else {
@@ -562,7 +588,7 @@ void gravar_forms(QUESTIONARIO_T questionario[], int num_questionario){
 //GRAVA ESCOLAS
 void gravar_schools(ESCOLA_T  escolas[], int num_escolas){
     ssize_t iswritten;
-    FILE *fich = fopen(FILE_FORM, "w1b");
+    FILE *fich = fopen(FILE_FORM, "wb");
     if (fich == NULL){
         printf("Erro ao abrir o ficheiro para escrita. \n");
     } else {
