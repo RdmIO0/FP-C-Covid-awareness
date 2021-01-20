@@ -73,7 +73,7 @@ void selecionar_genero(QUESTIONARIO_T *questionario);
 void covid_contacto(QUESTIONARIO_T *questionario);
 void doencas(QUESTIONARIO_T *questionario);
 float ler_temperatura(char texto[]);
-
+void mostrar_doencas(char* doencas[]);
 //teste
 //estatistica_contagio(QUESTIONARIO_T questionario);
 
@@ -284,6 +284,7 @@ QUESTIONARIO_T ler_questionario(void) {
     covid_contacto(&questionario);
     doencas(&questionario);
     questionario.temperatura=ler_temperatura("Temperatura:");
+    
 
     
 
@@ -298,7 +299,7 @@ void mostrar_questionario(QUESTIONARIO_T questionario) {
     printf("Genero: %s\n",questionario.genero);
     printf("Tipo de Participante: %s\n",questionario.participante);
     printf("Esteve em contacto com uma pessoa com covid?: %s\n",questionario.contacto_covid);
-    printf("Doencas: %s\n",questionario.doencas[7]);
+    mostrar_doencas(questionario.doencas);
     printf("Temperatura: %.2f\n",questionario.temperatura);
     
     
@@ -439,33 +440,37 @@ int menu_opcoes(void) {
 
 void doencas(QUESTIONARIO_T *questionario){
 
-char op_doencas;
+    for (int i = 0 ; i< 8; i++){
+        questionario->doencas[i] = malloc( 15 * sizeof(char));
+    }
     
+char op_doencas;
+   
     do{
         op_doencas=menu_opcoes();
         switch (op_doencas) {
-            case '1':
+            case 1:
                 strcpy(questionario->doencas[0],"Autoimune");
                 break;
-            case '2':
+            case 2:
                 strcpy(questionario->doencas[1],"Cancro");
                 break;
-            case '3':
+            case 3:
                 strcpy(questionario->doencas[2],"Cardiovascular");
                 break;
-            case '4':
+            case 4:
                 strcpy(questionario->doencas[3],"Diabetes");
                 break;
-            case '5':
+            case 5:
                 strcpy(questionario->doencas[4],"Hipertensao");
                 break;
-            case '6':
+            case 6:
                 strcpy(questionario->doencas[5],"Obesidade");
                 break;
-            case '7':
+            case 7:
                 strcpy(questionario->doencas[6],"Renal");
                 break;
-            case '8':
+            case 8:
                 strcpy(questionario->doencas[7],"Respiratoria");
                 break;
             default:
@@ -475,6 +480,14 @@ char op_doencas;
     }while(op_doencas !=0);
 }
 
+
+void mostrar_doencas(char* doencas[]) {
+int i=0;
+  for (i=0; i < 8; i++) {
+  printf("%s\n", doencas[i]);
+  }
+  printf("\n");
+}
 
 // Menu sintomas
 int menu_sintomas(void) {
