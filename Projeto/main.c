@@ -75,7 +75,7 @@ void doencas(QUESTIONARIO_T *questionario);
 float ler_temperatura(char texto[]);
 void mostrar_doencas(char* doencas[]);
 //teste
-//estatistica_contagio(QUESTIONARIO_T questionario);
+char verifica_contagio (QUESTIONARIO_T questionario);
 
 void selecionar_tipo(QUESTIONARIO_T *questionario);
 //RAFAEL TENTIVA DE FICHEIRO
@@ -284,6 +284,7 @@ QUESTIONARIO_T ler_questionario(void) {
     covid_contacto(&questionario);
     doencas(&questionario);
     questionario.temperatura=ler_temperatura("Temperatura:");
+    verifica_contagio(questionario.contacto_covid);
     
 
     
@@ -301,6 +302,8 @@ void mostrar_questionario(QUESTIONARIO_T questionario) {
     printf("Esteve em contacto com uma pessoa com covid?: %s\n",questionario.contacto_covid);
     mostrar_doencas(questionario.doencas);
     printf("Temperatura: %.2f\n",questionario.temperatura);
+    
+    
     
     
     
@@ -439,39 +442,28 @@ int menu_opcoes(void) {
 }
 
 void doencas(QUESTIONARIO_T *questionario){
-
     for (int i = 0 ; i< 8; i++){
         questionario->doencas[i] = malloc( 15 * sizeof(char));
     }
-    
 char op_doencas;
-   
-    do{
+   do{
         op_doencas=menu_opcoes();
         switch (op_doencas) {
-            case 1:
-                strcpy(questionario->doencas[0],"Autoimune");
+            case 1: strcpy(questionario->doencas[0],"Autoimune");
                 break;
-            case 2:
-                strcpy(questionario->doencas[1],"Cancro");
+            case 2: strcpy(questionario->doencas[1],"Cancro");
                 break;
-            case 3:
-                strcpy(questionario->doencas[2],"Cardiovascular");
+            case 3: strcpy(questionario->doencas[2],"Cardiovascular");
+            break;
+            case 4: strcpy(questionario->doencas[3],"Diabetes");
                 break;
-            case 4:
-                strcpy(questionario->doencas[3],"Diabetes");
+            case 5: strcpy(questionario->doencas[4],"Hipertensao");
                 break;
-            case 5:
-                strcpy(questionario->doencas[4],"Hipertensao");
+            case 6: strcpy(questionario->doencas[5],"Obesidade");
                 break;
-            case 6:
-                strcpy(questionario->doencas[5],"Obesidade");
+            case 7: strcpy(questionario->doencas[6],"Renal");
                 break;
-            case 7:
-                strcpy(questionario->doencas[6],"Renal");
-                break;
-            case 8:
-                strcpy(questionario->doencas[7],"Respiratoria");
+            case 8: strcpy(questionario->doencas[7],"Respiratoria");
                 break;
             default:
                 printf("Indique uma doenca válida!!\n");
@@ -484,7 +476,7 @@ char op_doencas;
 void mostrar_doencas(char* doencas[]) {
 int i=0;
   for (i=0; i < 8; i++) {
-  printf("%s\n", doencas[i]);
+      printf("Doenças: %s\n", doencas[i]);
   }
   printf("\n");
 }
@@ -506,27 +498,25 @@ int menu_sintomas(void) {
     return op_sintomas;
 }
 
-//validar contagio
-//estatistica_contagio(QUESTIONARIO_T questionario){
-// char *contagio[6];
-// if (questionario.temperatura >=38.0 && strcmp("sim", questionario.contacto_covid)){
-//     *contagio = "alto";
-//     strcpy(questionario.contacto_covid, *contagio);
-//     printf("\n %s", questionario.contacto_covid);
-//      }
-//   else if (questionario.temperatura >=36.5 "&&" strcmp("nao", questionario.contacto_covid) || strcmp("desconhecido", //questionario.contacto_covid)){
-//     *contagio = "medio";
-//     strcpy(questionario.contacto_covid, *contagio);
-//     printf("\n %s", questionario.contacto_covid);
-//}
-//  } else if (questionario.temperatura < 36.5 && strcmp("nao", questionario.contacto_covid) || strcmp("desconhecido", questionario.contacto_covid)){
-///     *contagio = "baixo";
-     //   strcpy(questionario.contacto_covid, *contagio);
-       // printf("\n %s", questionario.contacto_covid);
-       // }
-    //}
-//return *questionario.contact_covid;
-        
+//*validar contagio
+//estatistica_contagio(QUESTIONARIO_T questionario ){
+//     char *contagio[6];
+  //   if (questionario.temperatura >=38.0 && strcmp("sim", questionario.contacto_covid)){
+    //    *contagio = "alto";
+    //      strcpy(questionario.contacto_covid, *contagio);
+     //   printf("\n %s", questionario.contacto_covid);
+   //	        }
+//
+
+char verifica_contagio(QUESTIONARIO_T questionario){
+    char *nivel_contagio[6];
+    if (questionario.temperatura < 36 && strcmp ("sim",questionario.contacto_covid)){
+        *nivel_contagio = "baixo";
+        strcpy(questionario.contacto_covid, *nivel_contagio);
+        printf("\n %s", questionario.contacto_covid);
+    }
+    return *questionario.contacto_covid;
+}
 
 
 //Validadar idade
