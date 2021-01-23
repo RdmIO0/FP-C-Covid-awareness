@@ -47,7 +47,7 @@ typedef struct questionario {
     char localidade[50];
     char participante [30];
     char contacto_covid [15];
-    char *sintomas [6];
+    char *sintomas [7];
     char *doencas [8];
     float temperatura;
     char risco[8];
@@ -83,6 +83,10 @@ void conta_questionarios(QUESTIONARIO_T questionario[], int num_questionarios);
 int menu_pesquisar_genero(void);
 void mostrar_questionarios_genero(QUESTIONARIO_T questionario[], int num_questionarios);
 void selecionar_tipo(QUESTIONARIO_T *questionario);
+//selecionar sintomas que apresenta
+void sintomas(QUESTIONARIO_T *questionario);
+void mostrar_sintomas(char* sintomas[]);
+
 //RAFAEL TENTIVA DE FICHEIRO
 
 void gravar_forms(QUESTIONARIO_T questionario[], int num_questionarios);
@@ -288,6 +292,7 @@ QUESTIONARIO_T ler_questionario(void) {
     selecionar_tipo(&questionario);
     covid_contacto(&questionario);
     doencas(&questionario);
+    sintomas(&questionario);
     questionario.temperatura=ler_temperatura("Temperatura:");
     
 
@@ -305,6 +310,7 @@ void mostrar_questionario(QUESTIONARIO_T questionario) {
     printf("Tipo de Participante: %s\n",questionario.participante);
     printf("Esteve em contacto com uma pessoa com covid?: %s\n",questionario.contacto_covid);
     mostrar_doencas(questionario.doencas);
+    mostrar_sintomas(questionario.sintomas);
     printf("Temperatura: %.2f\n",questionario.temperatura);
     printf("Risco: %s\n",questionario.risco);
     
@@ -491,7 +497,7 @@ int menu_opcoes(void) {
 
 void doencas(QUESTIONARIO_T *questionario){
     for (int i = 0 ; i< 8; i++){
-        questionario->doencas[i] = malloc( 15 * sizeof(char));
+        questionario->doencas[i] = malloc( 8 * sizeof(char));
     }
 char op_doencas;
    do{
@@ -513,9 +519,8 @@ char op_doencas;
                 break;
             case 8: strcpy(questionario->doencas[7],"Respiratoria");
                 break;
-        }
-    }while(op_doencas !=0);
-}
+                }
+    }while(op_doencas !=0); }
 
 
 void mostrar_doencas(char* doencas[]) {
@@ -528,7 +533,6 @@ int i=0;
           printf("Doenças: %s \n", doencas[i]);
       }
   }
-    
 }
 
 // Menu sintomas
@@ -547,7 +551,43 @@ int menu_sintomas(void) {
     op_sintomas = ler_inteiro("Opcao: ", 0, 7);
     return op_sintomas;
 }
-
+//funcao Sintomas
+void sintomas(QUESTIONARIO_T *questionario){
+    for (int i = 0 ; i< 8; i++){
+        questionario->sintomas[i] = malloc( 7 * sizeof(char));
+    }
+char op_sintomas;
+   do{
+        op_sintomas=menu_sintomas();
+        switch (op_sintomas) {
+            case 1: strcpy(questionario->sintomas[0],"Dificuldades Respiratorias");
+                break;
+            case 2: strcpy(questionario->sintomas[1],"Dor Muscular");
+                break;
+            case 3: strcpy(questionario->sintomas[2],"Fadiga");
+            break;
+            case 4: strcpy(questionario->sintomas[3],"Falta de paladar");
+                break;
+            case 5: strcpy(questionario->sintomas[4],"Nauseas");
+                break;
+            case 6: strcpy(questionario->sintomas[5],"Febre");
+                break;
+            case 7: strcpy(questionario->sintomas[6],"Tosse");
+                break;
+                }
+    }while(op_sintomas !=0);
+}
+void mostrar_sintomas(char* sintomas[]) {
+int i=0;
+  for (i=0; i < 7; i++) {
+      if(strlen(sintomas[i])==0){
+          
+      }
+      else{
+          printf("Sintomas: %s \n", sintomas[i]);
+      }
+  }
+}
 //*validar contagio
 //estatistica_contagio(QUESTIONARIO_T questionario ){
 //     char *contagio[6];
