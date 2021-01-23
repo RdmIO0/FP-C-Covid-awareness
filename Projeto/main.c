@@ -618,20 +618,20 @@ int i=0;
 char* verifica_contagio(QUESTIONARIO_T questionario){
     char *nivel_contagio[6];
     
-    if (questionario.temperatura <= 36.5 && strcmp ("nao",questionario.contacto_covid) == 0)
+    if (questionario.temperatura <= 36.5 && strcmp ("Nao",questionario.contacto_covid) == 0)
     {
         *nivel_contagio="Baixo";
         strcpy(questionario.risco,*nivel_contagio);
         printf("\n %s",questionario.risco);
 
     }else 
-    if (questionario.temperatura >=36.5 && questionario.temperatura <38.0 && strcmp ("sim",questionario.contacto_covid) == 0
+    if (questionario.temperatura >=36.5 && questionario.temperatura <38.0 && strcmp ("Sim",questionario.contacto_covid) == 0)
     {
         *nivel_contagio="medio";
         strcpy(questionario.risco,*nivel_contagio);
         printf("\n %s",questionario.risco);
     }else
-    if (questionario.temperatura >=38 &&  strcmp ("sim",questionario.contacto_covid) == 0
+    if (questionario.temperatura >=38 &&  strcmp ("Sim",questionario.contacto_covid) == 0)
     {
         *nivel_contagio="alto";
         strcpy(questionario.risco,*nivel_contagio);
