@@ -77,8 +77,11 @@ float ler_temperatura(char texto[]);
 void mostrar_doencas(char* doencas[]);
 //teste
 char verifica_contagio (QUESTIONARIO_T questionario);
-
+//conta questionarios
 void conta_questionarios(QUESTIONARIO_T questionario[], int num_questionarios);
+//pesquisa questionarios por genero ( menu + funçao)
+int menu_pesquisar_genero(void);
+void mostrar_questionarios_genero(QUESTIONARIO_T questionario[], int num_questionarios);
 void selecionar_tipo(QUESTIONARIO_T *questionario);
 //RAFAEL TENTIVA DE FICHEIRO
 
@@ -130,7 +133,7 @@ int main() {
                         break;
 
                     case 3:
-                            
+                            mostrar_questionarios_genero(questionario,num_questionarios);
                         break;
 
                     case 4:
@@ -364,6 +367,44 @@ int menu_tipo(void) {
     return op_tipo;
 }
 
+int menu_pesquisar_genero(void) {
+    int op_tipo;
+
+    printf("* Total de Inqueritos por Genero*\n");
+    printf("1 - Feminino\n");
+    printf("2 - Masculino\n");
+    printf("0 - Sair\n");
+    op_tipo = ler_inteiro("Opcao: ", 0, 2);
+    return op_tipo;
+}
+void mostrar_questionarios_genero(QUESTIONARIO_T questionario[], int num_questionarios) {
+    
+    int i,op_porgenero;
+   
+    op_porgenero=menu_pesquisar_genero();
+    switch (op_porgenero) {
+        case 1:
+                for (i = 0; i < num_questionarios; i++) {
+                    if(strcmp ("Feminino",questionario->genero))
+                    {
+                    mostrar_questionario(questionario[i]);
+                    printf("\n");
+                    }
+                }
+            break;
+        case 2:
+            for (i = 0; i < num_questionarios; i++) {
+                if(strcmp ("Masculino",questionario->genero))
+                {
+                mostrar_questionario(questionario[i]);
+                printf("\n");
+                }
+            }
+    }
+}
+
+
+
 void selecionar_tipo(QUESTIONARIO_T *questionario){
 
 int op_tipo1;
@@ -480,11 +521,11 @@ char op_doencas;
 void mostrar_doencas(char* doencas[]) {
 int i=0;
   for (i=0; i < 8; i++) {
-      if(doencas[i]!=0){
-          printf("Doenças: %s\n", doencas[i]);
+      if(strlen(doencas[i])==0){
+          
       }
       else{
-          printf("\n");
+          printf("Doenças: %s \n", doencas[i]);
       }
   }
     
