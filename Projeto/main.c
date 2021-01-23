@@ -17,7 +17,6 @@
 //RAFAEL TENTATIVA DE SAVE
 #define FILE_FORM "DATA.bin"
 
-
 // Estrutura Escola
 typedef struct escola {
     int identificador;
@@ -39,8 +38,8 @@ typedef struct data {
 
 typedef struct questionario {
     int identificador_q;
-    ESCOLA_T escola;
     DATA_T data;
+    ESCOLA_T escola;
     char risco_c [20];
     int idade;
     char genero [15];
@@ -53,6 +52,8 @@ typedef struct questionario {
     char risco[8];
     
 } QUESTIONARIO_T;
+
+
 
 
 
@@ -86,6 +87,8 @@ void selecionar_tipo(QUESTIONARIO_T *questionario);
 //selecionar sintomas que apresenta
 void sintomas(QUESTIONARIO_T *questionario);
 void mostrar_sintomas(char* sintomas[]);
+//menu Selecionar a escola onde e feito o questionario
+char menu_escolas(ESCOLA_T escolas[]);
 
 //RAFAEL TENTIVA DE FICHEIRO
 
@@ -273,6 +276,22 @@ void mostrar_escolas(ESCOLA_T escolas[], int num_escolas) {
         printf("\n");
     }
 }
+// menu escola onde é feito o questionario
+char menu_escolas(ESCOLA_T escola[]) {
+    int op_tipo;
+
+    printf("* Selecione a sua Escola *\n");
+    printf("1 - %s\n",escola[0].nome);
+    printf("2 - %s\n",escola[1].nome);
+    printf("3 - %s\n",escola[2].nome);
+    printf("4 - %s\n",escola[3].nome);
+    printf("5 - %s\n",escola[4].nome);
+    printf("0 - Sair\n");
+    op_tipo = ler_inteiro("Opcao: ", 0, 5);
+    return op_tipo;
+}
+
+
 int registar_questionario(QUESTIONARIO_T questionarios[], int num_questionarios) {
     QUESTIONARIO_T questionario;
     if (num_questionarios >= MAX_QUESTIONARIOS) {
@@ -284,8 +303,9 @@ int registar_questionario(QUESTIONARIO_T questionarios[], int num_questionarios)
     return 1;
 }
 QUESTIONARIO_T ler_questionario(void) {
-    
+
     QUESTIONARIO_T questionario;
+    
     questionario.data=ler_data();
     questionario.idade=ler_idade("Idade:");
     selecionar_genero(&questionario);
@@ -294,17 +314,13 @@ QUESTIONARIO_T ler_questionario(void) {
     doencas(&questionario);
     sintomas(&questionario);
     questionario.temperatura=ler_temperatura("Temperatura:");
+    verifica_contagio(questionario);
     
-
-    
-
     return questionario;
 }
 
 void mostrar_questionario(QUESTIONARIO_T questionario) {
-    printf("Escola: %s\n", questionario.escola.nome);
     printf("Data/Hora: %d-%d-%d %d:%d \n",questionario.data.ano,questionario.data.mes,questionario.data.dia,questionario.data.hora.hora,questionario.data.hora.minutos);
-    printf("Numero do identificador do questionario: %d\n", questionario.identificador_q);
     printf("Idade: %d\n",questionario.idade);
     printf("Genero: %s\n",questionario.genero);
     printf("Tipo de Participante: %s\n",questionario.participante);
@@ -330,7 +346,8 @@ void conta_questionarios(QUESTIONARIO_T questionario[], int num_questionarios) {
 
     for (i = 0; i < num_questionarios; i++) {
     }
-    printf("Numero Questionarios Respondidos: %d \n",num_questionarios);
+    questionario->identificador_q=num_questionarios;
+    printf("Numero Questionarios Respondidos: %d \n",questionario->identificador_q);
 }
 
 // função Lê a data introduzida pelo utilizador
