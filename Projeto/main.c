@@ -104,7 +104,7 @@ float ler_temperatura(char texto[]);
 //Função Mostra todas as doencas da pessoa que fez o questionario
 void mostrar_doencas(char* doencas[]);
 //Função diz que esteve em contágio
-char* verifica_contagio (QUESTIONARIO_T questionario);
+void verifica_contagio (QUESTIONARIO_T *questionario);
 //Função Conta questionários
 void conta_questionarios(QUESTIONARIO_T questionario[], int num_questionarios);
 //Função pesquisa questionarios por genero ( menu + funçao)
@@ -117,6 +117,8 @@ void selecionar_tipo(QUESTIONARIO_T *questionario);
 void sintomas(QUESTIONARIO_T *questionario);
 //Função Mostra que sintomas tem
 void mostrar_sintomas(char* sintomas[]);
+// Funcao Apresenta questionarios respondidos por escola
+int apresenta_questionarios(QUESTIONARIO_T questionario[],ESCOLA_T escola[], int num_escolas1, int num_escolas2, int num_escolas3, int num_escolas4, int num_escolas5, int num_questionarios);
 
 //Funções ler e gravar dados das escolas e dos questionários
 
@@ -193,6 +195,7 @@ int main() {
                         break;
 
                     case 2:
+                            apresenta_questionarios(questionario, escolas,  num_escolas1,  num_escolas2,  num_escolas3,  num_escolas4,num_escolas5, num_questionarios);
                             
                         break;
 
@@ -284,6 +287,27 @@ int menu_escolas (QUESTIONARIO_T questionario[],ESCOLA_T escola[], int num_escol
 
     return op;
 }
+//Apresentar Questionarios respondidos por escola
+int apresenta_questionarios(QUESTIONARIO_T questionario[],ESCOLA_T escola[], int num_escolas1, int num_escolas2, int num_escolas3, int num_escolas4, int num_escolas5, int num_questionarios){
+
+    printf("* QUESTIONARIOS RESPONDIDOS POR ESCOLA *\n");
+    if(num_escolas1>0)
+        printf("%s - %i \n\n",escola[0].nome,num_escolas1);
+    if(num_escolas2>0)
+        printf("%s - %i \n\n",escola[1].nome,num_escolas2);
+    if(num_escolas3>0)
+        printf("%s - %i \n\n",escola[2].nome,num_escolas3);
+    if(num_escolas4>0)
+        printf("%s - %i \n\n",escola[3].nome,num_escolas4);
+    if(num_escolas5>0)
+        printf("%s - %i \n\n",escola[4].nome,num_escolas5);
+    
+    menu_opcoesprincipal();
+    int op=ler_inteiro("Opcao: ", 0, 9);
+
+    return op;
+}
+
 
 //Menu Genero
 char menu_genero(void){
@@ -507,30 +531,25 @@ char op_sintomas;
 }
 
 // Função condição verificar contágio
-char* verifica_contagio(QUESTIONARIO_T questionario){
-    char *nivel_contagio[6];
+void verifica_contagio(QUESTIONARIO_T *questionario){
     
-    if (questionario.temperatura <= 36.5 && strcmp ("Nao",questionario.contacto_covid) == 0)
-    {
-        *nivel_contagio="Baixo";
-        strcpy(questionario.risco,*nivel_contagio);
-        printf("\n %s",questionario.risco);
-    }else
-        
-    if (questionario.temperatura >=36.5 && questionario.temperatura <38.0 && strcmp ("sim",questionario.contacto_covid) == 0)
-    {
-        *nivel_contagio="medio";
-        strcpy(questionario.risco,*nivel_contagio);
-        printf("\n %s",questionario.risco);
-    }else
-        
-    if (questionario.temperatura >=38 &&  strcmp ("sim",questionario.contacto_covid) == 0)
-    {
-        *nivel_contagio="alto";
-        strcpy(questionario.risco,*nivel_contagio);
-        printf("\n %s",questionario.risco);
-    }
-    return questionario.risco;
+    if (questionario->temperatura <= 36.5 && strcmp ("Nao",questionario->contacto_covid) == 0)
+       {
+           strcpy(questionario->risco,"Baixo");
+           printf("\n %s",questionario->risco);
+       }else
+
+       if (questionario->temperatura >=36.5 && questionario->temperatura <38.0 && strcmp ("Sim",questionario->contacto_covid) == 0)
+       {
+           strcpy(questionario->risco,"medio");
+           printf("\n %s",questionario->risco);
+       }else
+
+       if (questionario->temperatura >=38 &&  strcmp ("Sim",questionario->contacto_covid) == 0)
+       {
+           strcpy(questionario->risco,"Alto");
+           printf("\n %s",questionario->risco);
+       }
 }
 
 // Funções de Leitura
@@ -603,7 +622,7 @@ void ler_string(char texto[], char str[], int max) {
 QUESTIONARIO_T ler_questionario(int num_questionarios, int escola) {
 
     QUESTIONARIO_T questionario;
-    
+    questionario.escola.identificador=escola;
     questionario.data=ler_data();
     questionario.idade=ler_idade("Idade:");
     selecionar_genero(&questionario);
@@ -612,7 +631,7 @@ QUESTIONARIO_T ler_questionario(int num_questionarios, int escola) {
     doencas(&questionario);
     sintomas(&questionario);
     questionario.temperatura=ler_temperatura("Temperatura:");
-    strcpy(questionario.risco, verifica_contagio(questionario));
+    verifica_contagio(&questionario);
     
     return questionario;
 }
@@ -682,6 +701,11 @@ void conta_questionarios(QUESTIONARIO_T questionario[], int num_questionarios) {
 }
 
 // Mostra ao utilizador
+
+
+
+    
+
 
 // Escolas
 void mostrar_escola(ESCOLA_T escola) {
