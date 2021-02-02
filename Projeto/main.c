@@ -119,6 +119,10 @@ void sintomas(QUESTIONARIO_T *questionario);
 void mostrar_sintomas(char* sintomas[]);
 // Funcao Apresenta questionarios respondidos por escola
 int apresenta_questionarios(QUESTIONARIO_T questionario[],ESCOLA_T escola[], int num_escolas1, int num_escolas2, int num_escolas3, int num_escolas4, int num_escolas5, int num_questionarios);
+// Funcao Estatisticas Genero
+void mostrar_estatisticas_genero (ESCOLA_T escola[],QUESTIONARIO_T questionario[], int num_questionarios,int estatisticas[]);
+// Funcao estatisticas Genero part 2
+void mostrar_estatisticas_genero_part2(int estatisticas_array[],int num_questionarios);
 
 //Funções ler e gravar dados das escolas e dos questionários
 
@@ -136,6 +140,7 @@ int ler_schools(ESCOLA_T escola[]);
 int main() {
     ESCOLA_T escolas[MAX_ESCOLAS];
     QUESTIONARIO_T questionario[MAX_QUESTIONARIOS];
+    int estatisticas[12];
     int num_escolas = 0;
     int num_escolas1 = 0;
     int num_escolas2 = 0;
@@ -200,7 +205,7 @@ int main() {
                         break;
 
                     case 3:
-                            mostrar_questionarios_genero(questionario,num_questionarios);
+                            mostrar_estatisticas_genero_part2(estatisticas,num_questionarios);
                         break;
 
                     case 4:
@@ -703,9 +708,25 @@ void conta_questionarios(QUESTIONARIO_T questionario[], int num_questionarios) {
 // Mostra ao utilizador
 
 
-
-    
-
+//Estatisticas Genero
+void mostrar_estatisticas_genero (ESCOLA_T escola[],QUESTIONARIO_T questionario[], int num_questionarios,int estatisticas[])
+{
+    int num_f=0 , num_m=0 , i=0;
+    for(i=0;i<num_questionarios;i++)
+    {
+        if(strcmp(questionario[i].genero,"Masculino")==0)
+            estatisticas[0]=num_m++;
+        else
+            num_f++;
+    }
+    mostrar_estatisticas_genero_part2(estatisticas,num_questionarios);
+}
+//Estatisticas Genero Part 2
+void mostrar_estatisticas_genero_part2(int estatisticas_array[],int num_questionarios)
+{
+    printf("Total Questionarios respondidos do genero Masculino: %d \n",estatisticas_array[0]);
+    printf("Total Questionarios respondidos do genero Feminino %d \n",estatisticas_array[1]);
+}
 
 // Escolas
 void mostrar_escola(ESCOLA_T escola) {
