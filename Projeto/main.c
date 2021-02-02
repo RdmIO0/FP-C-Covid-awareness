@@ -64,7 +64,7 @@ typedef struct questionario {
 //Função Buscar Inteiro
 int ler_inteiro(char texto[], int min, int max);
 //Função Menu Principal
-int menu_opcoesprincipal(void);
+void menu_opcoesprincipal(void);
 //Função Sub-Menu Estatísticas
 int menu_opcoesestatisticas(void);
 // Funcao Mostrar escolas 1 por 1
@@ -231,8 +231,7 @@ int main() {
 // Menus
 
 //Menu Principal
-int menu_opcoesprincipal(void) {
-    int op;
+void menu_opcoesprincipal(void) {
 
     printf("* MENU PRINCIPAL *\n");
     printf("1 - Registar uma Escola\n");
@@ -245,8 +244,6 @@ int menu_opcoesprincipal(void) {
     printf("8 - Ler ficheiros guardados Escolas\n");
     printf("9 - Ler ficheiros guardados Questionarios\n");
     printf("0 - Sair\n");
-    op = ler_inteiro("Opcao: ", 0, 9);
-    return op;
 }
 // Sub-Menu Estatísticas
 int menu_opcoesestatisticas(void){
@@ -267,7 +264,8 @@ int menu_opcoesestatisticas(void){
 int menu_escolas (QUESTIONARIO_T questionario[],ESCOLA_T escola[], int num_escolas1, int num_escolas2, int num_escolas3, int num_escolas4, int num_escolas5, int num_questionarios){
 
     if(num_questionarios==0){
-        printf("Não tem nenhum questionario respondido\n");
+        printf("Não tem nenhum questionario respondido\n\n");
+        printf("Por favor Adicione uma escola para poder respoder a Questionarios\n\n");
     }else{
         printf("\nQuestionarios Respondidios Por Escola\n");
         if(num_escolas1>0)
@@ -393,8 +391,6 @@ char op_genero1;
                 strcpy(questionario->genero,"Masculino");
                 break;
             case 'S':
-                
-                
             default:
                 printf("Por favor selecione um genero valido\n");
                 break;
@@ -519,24 +515,16 @@ char* verifica_contagio(QUESTIONARIO_T questionario){
         *nivel_contagio="Baixo";
         strcpy(questionario.risco,*nivel_contagio);
         printf("\n %s",questionario.risco);
-
-<<<<<<< Updated upstream
-    }else 
-    if (questionario.temperatura >=36.5 && questionario.temperatura <38.0 && strcmp ("Sim",questionario.contacto_covid) == 0)
-=======
     }else
+        
     if (questionario.temperatura >=36.5 && questionario.temperatura <38.0 && strcmp ("sim",questionario.contacto_covid) == 0)
->>>>>>> Stashed changes
     {
         *nivel_contagio="medio";
         strcpy(questionario.risco,*nivel_contagio);
         printf("\n %s",questionario.risco);
     }else
-<<<<<<< Updated upstream
-    if (questionario.temperatura >=38 &&  strcmp ("Sim",questionario.contacto_covid) == 0)
-=======
+        
     if (questionario.temperatura >=38 &&  strcmp ("sim",questionario.contacto_covid) == 0)
->>>>>>> Stashed changes
     {
         *nivel_contagio="alto";
         strcpy(questionario.risco,*nivel_contagio);
@@ -553,12 +541,12 @@ int ler_escolas(ESCOLA_T escola[], int num_escolas)
 {
     int escolas;
     if (num_escolas==0){
-        printf("Adicione uma escola!!\n");
+        printf("Adicione uma escola!!\n\n");
         return 0;
     }else{
-    printf("Indique que escola frequenta?");
+    printf("Indique que escola frequenta?\n\n");
     mostrar_escolas(escola, num_escolas);
-        escolas=ler_inteiro("Opcao: \n",1,num_escolas);
+        escolas=ler_inteiro("Número Identificador: \n",1,num_escolas);
     return escolas;
     }
 }
